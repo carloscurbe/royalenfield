@@ -15,9 +15,9 @@ function Formulario() {
   const [cedula, setCedula] = useState("");
   const [telefono, setTelefono] = useState("");
   const [email, setEmail] = useState("");
-  /* const [ciudades, setCiudades] = useState([]);
+  const [ciudades, setCiudades] = useState([]);
   const [ciudad, setCiudad] = useState("");
-  const [almacen, setAlmacen] = useState(0); */
+  const [almacen, setAlmacen] = useState(0);
 
   // const [empresa, setEmpresa] = useState(0);
   // const [direccion] = useState("Sin Direccion");
@@ -30,10 +30,10 @@ function Formulario() {
     /* setTiempocompraNombre(e.target.options[e.target.selectedIndex].text); */
   };
 
-  /* const leerCiudad = (e) => {
+  const leerCiudad = (e) => {
     setAlmacen(e.target.value);
     setCiudad(e.target.options[e.target.selectedIndex].text);
-  }; */
+  };
 
   useEffect(() => {
     const getVersiones = async () => {
@@ -46,7 +46,6 @@ function Formulario() {
           lgn_dominio: "royalenfield",
         }
       );
-
       const auth = login.data;
       if (auth.token.length > 0) {
         //Está autenticado
@@ -66,6 +65,16 @@ function Formulario() {
           options
         );
         setVersiones(response.data.data);
+        const responseCities = await axios.post(
+          "https://demoroyal.curbe.com.ec/api/shared/get_cities",
+          {
+            marca: 6,
+            codempresa: 601,
+            estado: 0,
+          },
+          options
+        );
+        setCiudades(responseCities.data);
       }
     };
     getVersiones();
@@ -91,16 +100,7 @@ function Formulario() {
         },
       };
 
-      const response = await axios.post(
-        "https://demoroyal.curbe.com.ec/api/shared/get_cities",
-        {
-          marca: 6,
-          codempresa: 601,
-          estado: 0,
-        },
-        options
-      );
-      setCiudades(response.data.data);
+      
     }
   };
   getCiudades(); */
@@ -399,17 +399,17 @@ function Formulario() {
             id="ciudad"
             name="ciudad"
             required
-            /* value={ciudad}
-            onChange={leerCiudad} */
+            value={ciudad}
+            onChange={leerCiudad}
           >
             <option value={""} key={0}>
               - Ciudad -
             </option>
-            {/* {ciudades.map((ciudad) => (
+            {ciudades.map((ciudad) => (
               <option key={ciudad.alm_codigo} value={ciudad.alm_codigo}>
                 {ciudad.ciudad_nombre}
               </option>
-            ))} */}
+            ))}
           </Form.Control>
         </Form.Group>
         <Form.Group className="text-center mb-0">
