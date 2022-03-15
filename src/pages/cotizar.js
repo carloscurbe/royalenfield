@@ -6,11 +6,10 @@ import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
 import Swal from "sweetalert2";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "../../src/styles.css";
+/* import cuid from "cuid"; */
+/* const queryString = require("query-string"); */
 
-// markup
-const IndexPage = () => {
+function Cotizar() {
   const [versiones, setVersiones] = useState([]);
   // eslint-disable-line
   const [version, setVersion] = useState("0");
@@ -154,10 +153,10 @@ const IndexPage = () => {
       <Form
         onSubmit={handleSubmit}
         id="formCotizador"
-        className="home-form px-3 py-4"
+        className="cotizador-form px-3 py-4"
       >
         <Row>
-          <Form.Group className="mb-2" as={Col} md={4}>
+          <Form.Group className="mb-2" as={Col} md={6}>
             <FloatingLabel
               controlId="floatingSelect"
               label="¿Qué moto te gustaría más?"
@@ -184,7 +183,7 @@ const IndexPage = () => {
             </FloatingLabel>
           </Form.Group>
 
-          <Form.Group className="mb-2" as={Col} md={4}>
+          <Form.Group className="mb-2" as={Col} md={6}>
             <FloatingLabel label="Nombre" className="mb-3">
               <Form.Control
                 type="text"
@@ -197,8 +196,10 @@ const IndexPage = () => {
               />
             </FloatingLabel>
           </Form.Group>
+        </Row>
 
-          <Form.Group className="mb-2" as={Col} md={4}>
+        <Row>
+          <Form.Group className="mb-2" as={Col} md={6}>
             <FloatingLabel label="Apellido" className="mb-3">
               <Form.Control
                 type="text"
@@ -211,10 +212,8 @@ const IndexPage = () => {
               />
             </FloatingLabel>
           </Form.Group>
-        </Row>
 
-        <Row>
-          <Form.Group className="mb-2" as={Col} md={4}>
+          <Form.Group className="mb-2" as={Col} md={6}>
             <FloatingLabel label="Cédula" className="mb-3">
               <Form.Control
                 type="text"
@@ -227,8 +226,10 @@ const IndexPage = () => {
               />
             </FloatingLabel>
           </Form.Group>
+        </Row>
 
-          <Form.Group className="mb-2" as={Col} md={4}>
+        <Row>
+          <Form.Group className="mb-2" as={Col} md={6}>
             <FloatingLabel label="Celular" className="mb-3">
               <Form.Control
                 type="text"
@@ -242,7 +243,7 @@ const IndexPage = () => {
             </FloatingLabel>
           </Form.Group>
 
-          <Form.Group className="mb-2" as={Col} md={4}>
+          <Form.Group className="mb-2" as={Col} md={6}>
             <FloatingLabel label="Correo electrónico" className="mb-3">
               <Form.Control
                 type="email"
@@ -258,7 +259,7 @@ const IndexPage = () => {
         </Row>
 
         <Row>
-          <Form.Group className="mb-2" as={Col} md={4}>
+          <Form.Group className="mb-2" as={Col} md={6}>
             <FloatingLabel label="Tienda preferida">
               <Form.Select
                 aria-label="Ciudad"
@@ -320,6 +321,6 @@ const IndexPage = () => {
       </Form>
     </Fragment>
   );
-};
+}
 
-export default IndexPage;
+export default Cotizar;

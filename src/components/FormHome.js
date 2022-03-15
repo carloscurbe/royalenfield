@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 
 function Formulario() {
   const [versiones, setVersiones] = useState([]);
+  /* const [producto, setProducto] = useState("0"); */
   const [version, setVersion] = useState("0");
   const [nombre, setNombre] = useState("");
   const [apellido, setApellido] = useState("");
@@ -127,7 +128,7 @@ function Formulario() {
     dataForm.append("porc_discapacidad", 0);
     dataForm.append("token", "ed8691578b15");
     dataForm.append("tipo_vehiculo", 1);
-    dataForm.append("cod_producto", version);
+    dataForm.append("cod_producto", 101);
 
     const respuesta = await axios.post(
       "https://demoroyal.curbe.com.ec/api/leads_web/new_lead",

@@ -1,0 +1,59 @@
+body {
+  background-color: transparent;
+}
+
+#btn-enviar {
+  background-color: #da291c;
+  border-radius: 0;
+  border: 0;
+}
+/******** pagina inicio ********/
+
+.home-form .form-floating {
+  color: #ffffff;
+}
+
+.home-form .form-control {
+  border-radius: 0;
+  border-width: 0px 0px 1px 0px;
+  background-color: #000000;
+  color: #ffffff;
+}
+
+.home-form .form-select {
+  border-radius: 0;
+  border-width: 0px 0px 1px 0px;
+  background-color: #000000;
+  color: #ffffff;
+}
+
+.home-form .check-terminos {
+  font-size: 13px;
+  font-weight: bold;
+}
+
+/******** pagina cotizar ********/
+
+.cotizador-form .form-floating {
+  color: #ffffff;
+}
+
+.cotizador-form .form-control {
+  border-radius: 0;
+  border-width: 0px 0px 1px 0px;
+  background-color: #000000;
+  color: #ffffff;
+}
+
+.cotizador-form .form-select {
+  border-radius: 0;
+  border-width: 0px 0px 1px 0px;
+  background-color: #000000;
+  color: #ffffff;
+}
+
+.cotizador-form .check-terminos {
+  font-size: 13px;
+  font-weight: bold;
+  color: #da291c;
+}
