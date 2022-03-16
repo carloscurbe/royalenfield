@@ -1,4 +1,5 @@
 import React, { Fragment, useState, useEffect } from "react";
+import InputMask from "react-input-mask";
 import Form from "react-bootstrap/Form";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Row from "react-bootstrap/Row";
@@ -21,20 +22,29 @@ const IndexPage = () => {
   const [email, setEmail] = useState("");
   const [ciudades, setCiudades] = useState([]);
   const [ciudad, setCiudad] = useState("");
+  const [empresa, setEmpresa] = useState("0");
   const [almacen, setAlmacen] = useState("0");
+  const [validation, setValidation] = useState(true);
 
-  /* console.log("version:", version);
+  console.log("version:", version);
   console.log("nombre", nombre);
+  console.log("empresa", empresa);
   console.log("almacen:", almacen);
-  console.log("ciudad", ciudad); */
+  console.log("ciudad", ciudad);
 
   const leerVersion = (e) => {
     setVersion(e.target.value);
   };
 
   const leerCiudad = (e) => {
-    setAlmacen(e.target.value);
+    /* setAlmacen(e.target.value); */
     setCiudad(e.target.options[e.target.selectedIndex].text);
+
+    const concesionarioEnviar = document
+      .getElementById("ciudad")
+      .value.split("|");
+    setEmpresa(concesionarioEnviar[0]);
+    setAlmacen(concesionarioEnviar[1]);
   };
 
   useEffect(() => {
@@ -82,70 +92,150 @@ const IndexPage = () => {
     getVersiones();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+  const blurCedula = (e) => {
+    let cedula = e.target.value.replace(" ", "");
+    let aux = 0;
+    let sum = 0;
+
+    if (cedula.length === 10) {
+      let ced = cedula;
+      for (var i = 0; i < 9; i++) {
+        if (i % 2 === 0) {
+          aux = Number(ced[i]) * 2;
+          if (aux > 9) {
+            aux = aux - 9;
+          }
+          sum = sum + aux;
+        } else {
+          aux = Number(ced[i]);
+          sum = sum + aux;
+        }
+      }
+      let resid = sum % 10;
+      let verifica = 10 - resid;
+      if (resid === 0) {
+        verifica = 0;
+      }
+      var verificador = Number(cedula.substring(9, 10));
+      if (verificador !== verifica) {
+        if (cedula !== "0105779454") {
+          /* Swal.fire({
+            position: "top-end",
+            icon: "warning",
+            title: "Cédula inválida, vuelva a intentar",
+            showConfirmButton: false,
+            timer: 1500,
+          }); */
+
+          setValidation(false);
+          /* setCedula(""); */
+          document.getElementById("cedula").value = "";
+          document.getElementById("cedula").focus();
+        }
+      } else {
+        setValidation(true);
+      }
+    } else {
+      /* Swal.fire({
+        position: "top-end",
+        icon: "warning",
+        title: "Cédula inválida, vuelva a intentar",
+        showConfirmButton: false,
+        timer: 1500,
+      }); */
+      setValidation(false);
+      /* setCedula(""); */
+      document.getElementById("cedula").value = "";
+      document.getElementById("cedula").focus();
+    }
+    if (cedula.length === 0) {
+      setValidation(true);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const dataForm = new FormData();
-    dataForm.append("tipo_integracion", 1);
-    dataForm.append("ciudad", ciudad);
-    dataForm.append("empresa", 601);
-    dataForm.append("almacen", almacen);
-    dataForm.append("plataforma", "web");
-    dataForm.append("canal", 16);
-    dataForm.append("medio", 54);
-    dataForm.append("calidad", 3);
-    dataForm.append("cedula", cedula);
-    dataForm.append("nombre", nombre);
-    dataForm.append("apellido", apellido);
-    dataForm.append("email", email);
-    dataForm.append("direccion", "Sin dirección");
-    dataForm.append("telefono", telefono);
-    dataForm.append("exonerado", 0);
-    dataForm.append("discapacidad", "Sin discapacidad");
-    dataForm.append("porc_discapacidad", 0);
-    dataForm.append("token", "ed8691578b15");
-    dataForm.append("tipo_vehiculo", 1);
-    dataForm.append("cod_producto", version);
-
-    const respuesta = await axios.post(
-      "https://demoroyal.curbe.com.ec/api/leads_web/new_lead",
-      dataForm
+    const login = await axios.post(
+      "https://demoroyal.curbe.com.ec/api/auth/login",
+      {
+        lgn_userName: "apiroyal",
+        lgn_password: "api12345",
+        lgn_dominio: "royalenfield",
+      }
     );
-    if (respuesta.status === 200) {
-      if (respuesta.data.status === "Ok") {
-        setVersion("0");
-        setNombre("");
-        setApellido("");
-        setCiudad("");
-        setCedula("");
-        setTelefono("");
-        setEmail("");
-        setCiudad("");
-        e.target.reset();
-        // setActiveSpinner(false);
-        // handleClose();
-        Swal.fire({
-          title: "Información enviada...",
-          text: "Pronto nos pondremos en contacto con usted.",
-          showCloseButton: true,
-          icon: "success",
-        });
+    const auth = login.data;
+    if (auth.token.length > 0) {
+      //Está autenticado
+      const options = {
+        headers: {
+          Authorization: "Bearer " + auth.token,
+        },
+      };
+
+      const respuesta = await axios.post(
+        "https://demoroyal.curbe.com.ec/api/leadsweb/new_lead",
+        {
+          tipo_integracion: 1,
+          ciudad: ciudad,
+          empresa: empresa,
+          almacen: almacen,
+          plataforma: "web",
+          canal: 7,
+          medio: 5,
+          calidad: 3,
+          cedula: cedula,
+          nombre: nombre,
+          apellido: apellido,
+          email: email,
+          direccion: "Sin direccion",
+          telefono: telefono,
+          exonerado: 0,
+          discapacidad: "",
+          porc_discapacidad: 0,
+          token: "ed8691578b15",
+          tipo_vehiculo: 1,
+          cod_producto: version,
+        },
+        options
+      );
+
+      if (respuesta.status === 200) {
+        if (respuesta.statusText === "OK") {
+          setVersion("0");
+          setNombre("");
+          setApellido("");
+          setCiudad("");
+          setCedula("");
+          setTelefono("");
+          setEmail("");
+          setCiudad("");
+          e.target.reset();
+
+          Swal.fire({
+            title: "Gracias por escribirnos",
+            text: "Estamos rodando para comunicarnos pronto contigo.",
+            timer: 2000,
+            showConfirmButton: false,
+            icon: "success",
+          });
+        } else {
+          Swal.fire({
+            title: "Error al enviar la información",
+            text: "Intente en unos minutos...",
+            timer: 3000,
+            showConfirmButton: false,
+            icon: "error",
+          });
+        }
       } else {
-        // setActiveSpinner(false);
         Swal.fire({
-          title: "Error al enviar la información",
+          title: "Error al enviar informacion",
           text: "Intente en unos minutos...",
-          showCloseButton: true,
+          timer: 3000,
+          showConfirmButton: false,
           icon: "error",
         });
       }
-    } else {
-      // setActiveSpinner(false);
-      Swal.fire({
-        title: "Error al enviar informacion",
-        text: "Intente en unos minutos...",
-        showCloseButton: true,
-        icon: "error",
-      });
     }
   };
 
@@ -161,6 +251,7 @@ const IndexPage = () => {
             <FloatingLabel
               controlId="floatingSelect"
               label="¿Qué moto te gustaría más?"
+              className="mb-3"
             >
               <Form.Select
                 aria-label="Floating label select example"
@@ -216,16 +307,23 @@ const IndexPage = () => {
         <Row>
           <Form.Group className="mb-2" as={Col} md={4}>
             <FloatingLabel label="Cédula" className="mb-3">
-              <Form.Control
+              <InputMask
                 type="text"
+                id="cedula"
+                name="cedula"
                 placeholder="Cédula"
-                id="identificacion"
-                name="identificacion"
                 required
                 value={cedula}
+                className="form-control"
                 onChange={(e) => setCedula(e.target.value)}
+                mask="9999999999"
+                maskChar=" "
+                onBlur={blurCedula}
               />
             </FloatingLabel>
+            <span className={validation ? "d-none" : "mensaje-error d-block"}>
+              Cédula inválida
+            </span>
           </Form.Group>
 
           <Form.Group className="mb-2" as={Col} md={4}>
@@ -265,13 +363,17 @@ const IndexPage = () => {
                 id="ciudad"
                 name="ciudad"
                 required
+                className="mb-3"
                 onChange={leerCiudad}
               >
                 <option value={""} key={0}>
                   - Seleccione -
                 </option>
                 {ciudades.map((ciudad) => (
-                  <option key={ciudad.ciudad_codigo} value={ciudad.alm_codigo}>
+                  <option
+                    key={ciudad.ciudad_codigo}
+                    value={ciudad.emp_codigo + "|" + ciudad.alm_codigo}
+                  >
                     {ciudad.alm_nombre}
                   </option>
                 ))}
@@ -287,22 +389,21 @@ const IndexPage = () => {
             <Button
               variant="primary"
               type="submit"
-              className="px-3"
+              className="px-4"
               id="btn-enviar"
             >
               Enviar
             </Button>
             <Form.Check
               required
-              /* label="acepto términos y condiciones" */
               id="acepto"
               name="acepto"
               feedbackTooltip
               isInvalid
-              className="ps-md-4 pe-1"
+              className="ps-4"
             />
 
-            <p className="check-terminos mb-0">
+            <p className="check-terminos mb-0 ps-1">
               <a
                 href="https://royalenfieldmx.com/politica-de-privacidad/"
                 className="text-reset text-decoration-none"
