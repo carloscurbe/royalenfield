@@ -71,7 +71,7 @@ const IndexPage = () => {
           "https://demoroyal.curbe.com.ec/api/products/get_productos",
           {
             marca: 6,
-            codempresa: 601,
+            codempresa: 610,
             estado: 0,
           },
           options
@@ -81,7 +81,7 @@ const IndexPage = () => {
           "https://demoroyal.curbe.com.ec/api/shared/get_cities",
           {
             marca: 6,
-            codempresa: 601,
+            codempresa: 610,
             estado: 0,
           },
           options
@@ -128,7 +128,7 @@ const IndexPage = () => {
           }); */
 
           setValidation(false);
-          /* setCedula(""); */
+          setCedula("");
           document.getElementById("cedula").value = "";
           document.getElementById("cedula").focus();
         }
@@ -144,7 +144,7 @@ const IndexPage = () => {
         timer: 1500,
       }); */
       setValidation(false);
-      /* setCedula(""); */
+      setCedula("");
       document.getElementById("cedula").value = "";
       document.getElementById("cedula").focus();
     }
@@ -192,7 +192,7 @@ const IndexPage = () => {
           exonerado: 0,
           discapacidad: "",
           porc_discapacidad: 0,
-          token: "ed8691578b15",
+          token: "",
           tipo_vehiculo: 1,
           cod_producto: version,
         },
