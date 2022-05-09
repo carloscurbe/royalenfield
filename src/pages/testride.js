@@ -11,7 +11,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../../src/styles.css";
 
 // markup
-const IndexPage = () => {
+const TestRide = () => {
   const [versiones, setVersiones] = useState([]);
   // eslint-disable-line
   const [version, setVersion] = useState("0");
@@ -20,6 +20,7 @@ const IndexPage = () => {
   const [cedula, setCedula] = useState("");
   const [telefono, setTelefono] = useState("");
   const [email, setEmail] = useState("");
+  const [edad, setEdad] = useState("");
   const [ciudades, setCiudades] = useState([]);
   const [ciudad, setCiudad] = useState("");
   const [empresa, setEmpresa] = useState("0");
@@ -181,12 +182,13 @@ const IndexPage = () => {
           almacen: almacen,
           plataforma: "web",
           canal: 7,
-          medio: 76,
+          medio: 120,
           calidad: 3,
           cedula: cedula,
           nombre: nombre,
           apellido: apellido,
           email: email,
+          edad: edad,
           direccion: "Sin direccion",
           telefono: telefono,
           exonerado: 0,
@@ -208,6 +210,7 @@ const IndexPage = () => {
           setCedula("");
           setTelefono("");
           setEmail("");
+          setEdad("");
           setCiudad("");
           e.target.reset();
 
@@ -241,186 +244,204 @@ const IndexPage = () => {
 
   return (
     <Fragment>
-      <Form
-        onSubmit={handleSubmit}
-        id="formCotizador"
-        className="home-form px-3 py-4"
-      >
-        <Row>
-          <Form.Group className="mb-2" as={Col} md={4}>
-            <FloatingLabel
-              controlId="floatingSelect"
-              label="¿Qué moto te gustaría más?"
-              className="mb-3"
-            >
-              <Form.Select
-                aria-label="Floating label select example"
-                id="version"
-                name="version"
-                required
-                onChange={leerVersion}
-              >
-                <option value={""} key={0}>
-                  - Seleccione -
-                </option>
-                {versiones.map((version) => (
-                  <option
-                    key={version.codigo_producto}
-                    value={version.codigo_producto}
-                  >
-                    {version.version}
-                  </option>
-                ))}
-              </Form.Select>
-            </FloatingLabel>
-          </Form.Group>
+      <div className="testdrive-cont">
+        <Form
+          onSubmit={handleSubmit}
+          id="formCotizador"
+          className="testdrive-form px-3 py-4"
+        >
+          <Row>
+            <Form.Group className="mb-2" as={Col} md={6}>
+              <FloatingLabel label="Nombre" className="mb-3">
+                <Form.Control
+                  type="text"
+                  id="nombre"
+                  name="nombre"
+                  placeholder="Nombre"
+                  required
+                  value={nombre}
+                  onChange={(e) => setNombre(e.target.value)}
+                />
+              </FloatingLabel>
+            </Form.Group>
 
-          <Form.Group className="mb-2" as={Col} md={4}>
-            <FloatingLabel label="Nombre" className="mb-3">
-              <Form.Control
-                type="text"
-                id="nombre"
-                name="nombre"
-                placeholder="Nombre"
-                required
-                value={nombre}
-                onChange={(e) => setNombre(e.target.value)}
-              />
-            </FloatingLabel>
-          </Form.Group>
+            <Form.Group className="mb-2" as={Col} md={6}>
+              <FloatingLabel label="Apellido" className="mb-3">
+                <Form.Control
+                  type="text"
+                  id="apellido"
+                  name="apellido"
+                  placeholder="Apellido"
+                  required
+                  value={apellido}
+                  onChange={(e) => setApellido(e.target.value)}
+                />
+              </FloatingLabel>
+            </Form.Group>
+          </Row>
 
-          <Form.Group className="mb-2" as={Col} md={4}>
-            <FloatingLabel label="Apellido" className="mb-3">
-              <Form.Control
-                type="text"
-                id="apellido"
-                name="apellido"
-                placeholder="Apellido"
-                required
-                value={apellido}
-                onChange={(e) => setApellido(e.target.value)}
-              />
-            </FloatingLabel>
-          </Form.Group>
-        </Row>
+          <Row>
+            <Form.Group className="mb-2" as={Col} md={6}>
+              <FloatingLabel label="Cédula" className="mb-3">
+                <InputMask
+                  type="text"
+                  id="cedula"
+                  name="cedula"
+                  placeholder="Cédula"
+                  required
+                  value={cedula}
+                  className="form-control"
+                  onChange={(e) => setCedula(e.target.value)}
+                  mask="9999999999"
+                  maskChar=" "
+                  onBlur={blurCedula}
+                />
+              </FloatingLabel>
+              <span className={validation ? "d-none" : "mensaje-error d-block"}>
+                Cédula inválida
+              </span>
+            </Form.Group>
 
-        <Row>
-          <Form.Group className="mb-2" as={Col} md={4}>
-            <FloatingLabel label="Cédula" className="mb-3">
-              <InputMask
-                type="text"
-                id="cedula"
-                name="cedula"
-                placeholder="Cédula"
-                required
-                value={cedula}
-                className="form-control"
-                onChange={(e) => setCedula(e.target.value)}
-                mask="9999999999"
-                maskChar=" "
-                onBlur={blurCedula}
-              />
-            </FloatingLabel>
-            <span className={validation ? "d-none" : "mensaje-error d-block"}>
-              Cédula inválida
-            </span>
-          </Form.Group>
+            <Form.Group className="mb-2" as={Col} md={6}>
+              <FloatingLabel label="Celular" className="mb-3">
+                <Form.Control
+                  type="text"
+                  placeholder="Celular"
+                  id="telefono"
+                  name="telefono"
+                  required
+                  value={telefono}
+                  onChange={(e) => setTelefono(e.target.value)}
+                />
+              </FloatingLabel>
+            </Form.Group>
+          </Row>
 
-          <Form.Group className="mb-2" as={Col} md={4}>
-            <FloatingLabel label="Celular" className="mb-3">
-              <Form.Control
-                type="text"
-                placeholder="Celular"
-                id="telefono"
-                name="telefono"
-                required
-                value={telefono}
-                onChange={(e) => setTelefono(e.target.value)}
-              />
-            </FloatingLabel>
-          </Form.Group>
+          <Row>
+            <Form.Group className="mb-2" as={Col} md={6}>
+              <FloatingLabel label="Correo electrónico" className="mb-3">
+                <Form.Control
+                  type="email"
+                  placeholder="Correo electrónico"
+                  id="email"
+                  name="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </FloatingLabel>
+            </Form.Group>
 
-          <Form.Group className="mb-2" as={Col} md={4}>
-            <FloatingLabel label="Correo electrónico" className="mb-3">
-              <Form.Control
-                type="email"
-                placeholder="Correo electrónico"
-                id="email"
-                name="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </FloatingLabel>
-          </Form.Group>
-        </Row>
+            <Form.Group className="mb-2" as={Col} md={6}>
+              <FloatingLabel label="Edad" className="mb-3">
+                <Form.Control
+                  type="number"
+                  placeholder="Edad"
+                  id="edad"
+                  name="edad"
+                  required
+                  value={edad}
+                  onChange={(e) => setEdad(e.target.value)}
+                />
+              </FloatingLabel>
+            </Form.Group>
+          </Row>
 
-        <Row>
-          <Form.Group className="mb-2" as={Col} md={4}>
-            <FloatingLabel label="Tienda preferida">
-              <Form.Select
-                aria-label="Ciudad"
-                id="ciudad"
-                name="ciudad"
-                required
+          <Row>
+            <Form.Group className="mb-2" as={Col} md={6}>
+              <FloatingLabel
+                controlId="floatingSelect"
+                label="¿Qué moto te gustaría más?"
                 className="mb-3"
-                onChange={leerCiudad}
               >
-                <option value={""} key={0}>
-                  - Seleccione -
-                </option>
-                {ciudades.map((ciudad) => (
-                  <option
-                    key={ciudad.ciudad_codigo}
-                    value={ciudad.emp_codigo + "|" + ciudad.alm_codigo}
-                  >
-                    {ciudad.alm_nombre}
+                <Form.Select
+                  aria-label="Floating label select example"
+                  id="version"
+                  name="version"
+                  required
+                  onChange={leerVersion}
+                >
+                  <option value={""} key={0}>
+                    - Seleccione -
                   </option>
-                ))}
-              </Form.Select>
-            </FloatingLabel>
-          </Form.Group>
+                  {versiones.map((version) => (
+                    <option
+                      key={version.codigo_producto}
+                      value={version.codigo_producto}
+                    >
+                      {version.version}
+                    </option>
+                  ))}
+                </Form.Select>
+              </FloatingLabel>
+            </Form.Group>
 
-          <Form.Group
-            className="mb-0 d-flex align-items-center"
-            as={Col}
-            md={6}
-          >
-            <Button
-              variant="primary"
-              type="submit"
-              className="px-4"
-              id="btn-enviar"
+            <Form.Group className="mb-2" as={Col} md={6}>
+              <FloatingLabel label="Selecciona un distribuidor">
+                <Form.Select
+                  aria-label="Ciudad"
+                  id="ciudad"
+                  name="ciudad"
+                  required
+                  className="mb-3"
+                  onChange={leerCiudad}
+                >
+                  <option value={""} key={0}>
+                    - Seleccione -
+                  </option>
+                  {ciudades.map((ciudad) => (
+                    <option
+                      key={ciudad.ciudad_codigo}
+                      value={ciudad.emp_codigo + "|" + ciudad.alm_codigo}
+                    >
+                      {ciudad.alm_nombre}
+                    </option>
+                  ))}
+                </Form.Select>
+              </FloatingLabel>
+            </Form.Group>
+
+            <Form.Group
+              className="mb-0 d-flex align-items-center"
+              as={Col}
+              md={6}
             >
-              Enviar
-            </Button>
-            <Form.Check
-              required
-              id="acepto"
-              name="acepto"
-              feedbackTooltip
-              isInvalid
-              className="ps-4"
-            />
-
-            <p className="check-terminos mb-0 ps-1">
-              <a
-                href="https://royalenfieldmx.com/politica-de-privacidad/"
-                className="text-reset text-decoration-none"
-                target="_blank"
-                rel="noreferrer"
+              <Button
+                variant="primary"
+                type="submit"
+                className="px-4"
+                id="btn-enviar"
               >
-                Aceptar términos y condiciones
-              </a>
-            </p>
-          </Form.Group>
-          {/* <Form.Group className="d-flex">
+                Enviar
+              </Button>
+              <Form.Check
+                required
+                id="acepto"
+                name="acepto"
+                feedbackTooltip
+                isInvalid
+                className="ps-4"
+              />
+
+              <p className="check-terminos mb-0 ps-1">
+                <a
+                  href="https://royalenfieldmx.com/politica-de-privacidad/"
+                  className="text-reset text-decoration-none"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Aceptar términos y condiciones
+                </a>
+              </p>
+            </Form.Group>
+            {/* <Form.Group className="d-flex">
             
           </Form.Group> */}
-        </Row>
-      </Form>
+          </Row>
+        </Form>
+      </div>
     </Fragment>
   );
 };
 
-export default IndexPage;
+export default TestRide;

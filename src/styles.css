@@ -37,3 +37,32 @@ body {
   color: #da291c;
   margin-top: -18px;
 }
+
+
+.testdrive-form .form-control {
+  border-radius: 0;
+  border: 1px solid #000000;
+  background-color: transparent;
+}
+
+.testdrive-form .form-select {
+  border-radius: 0;
+  border: 1px solid #000000;
+  background-color: transparent;
+}
+
+
+/* .testdrive-cont {
+  background-image: url("https://royalenfieldmx.com/wp-content/uploads/2020/12/banner-test-ride.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 30em;
+} */
+
+/* .testdrive-cont form {
+  background-color: rgba(229, 229, 229, 0.77);
+  max-width: 1200px;
+} */

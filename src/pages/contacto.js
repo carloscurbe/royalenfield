@@ -11,7 +11,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../../src/styles.css";
 
 // markup
-const IndexPage = () => {
+const Contacto = () => {
   const [versiones, setVersiones] = useState([]);
   // eslint-disable-line
   const [version, setVersion] = useState("0");
@@ -181,7 +181,7 @@ const IndexPage = () => {
           almacen: almacen,
           plataforma: "web",
           canal: 7,
-          medio: 76,
+          medio: 93,
           calidad: 3,
           cedula: cedula,
           nombre: nombre,
@@ -423,4 +423,4 @@ const IndexPage = () => {
   );
 };
 
-export default IndexPage;
+export default Contacto;
